@@ -1,5 +1,5 @@
 === Dynamic Hostname ===
-Contributors:      miyauchi
+Contributors:      miyauchi, megumithemes, tekapo
 Donate link:       https://wpist.me/
 Tags: wp_home, site_url, hostname, vagrant cloud
 Requires at least: 3.8
@@ -12,38 +12,36 @@ Set hostname dynamically for the development.
 
 == Description ==
 
-このプラグインを使用すると、開発用サーバーやステージング用サーバーなど、本番環境とはちがうサーバー上でWordPressを動作させる際に、ホスト名を自動的に変更しスタイルシートや画像などのリンク切りが起こらなくなります。
-
-たとえば Vagrant Cloud などと合わせて使うと、すごく便利です。
+This plugin changes dynamically and automatically the host name which WordPress uses. For example, when you run WordPress on your different servers, for production, development or staging, the host name will be changed dynamically and those each sites won't have broken links. It's very useful when you use it with Vagrant Cloud.
 
 = Some features =
 
-* ホスト名を一時的に、現在のホスト名($_SERVER['HTTP_HOST'])に変更します。
-* コンテンツ内の内部リンク、画像へのリンクなども現在のホスト名に置き換えます。
-* 開発サーバー上で保存されたコンテンツ内に含まれるホスト名は、保存時に自動的に本番環境用のホスト名に変換します。(本番サーバーへ移行する際にデータベース内のデータを変換する必要がありません。)
-* エディター内のホスト名は、一時的に現在のホスト名に変換されてエディターに出力されるため、開発環境等で編集を行ってもリンクがきれません。
+* Temporarily changes the host name to the current host name ($_SERVER['HTTP_HOST']).
+* Also replaces the host name of the links to the contents and the images in the same site.
+* The host name included in the contents on the development server will be change to the one for the production server. (you don't need to replace the host name in the database when you move it to the production server.)
+* The host name in the editor window temporarily replaced with the current host name, so when you edit some on the development server, you never have broken links.
 
-= 変換するフック =
+= Hooks to use for replacing =
 
-このプラグインは以下のフィルターフックで、URL内に含まれるホスト名の変換を行っています。
+This plugin uses below filter hooks to replace the host name in URL.
 
 `
 $hooks = array(
-    "home_url",
-    "site_url",
-    "stylesheet_directory_uri",
-    "template_directory_uri",
-    "plugins_url",
-    "wp_get_attachment_url",
-    "theme_mod_header_image",
-    "theme_mod_background_image",
-    "the_content",
-    "upload_dir",
-    "widget_text",
+"home_url",
+"site_url",
+"stylesheet_directory_uri",
+"template_directory_uri",
+"plugins_url",
+"wp_get_attachment_url",
+"theme_mod_header_image",
+"theme_mod_background_image",
+"the_content",
+"upload_dir",
+"widget_text",
 );
 `
 
-この変換対象となるフックにはさらにフィルターフックもありますので、みなさんがご利用になる他のプラグイン等との組み合わせにあわせてカスタマイズすることができます。
+Those hooks have also their own fileter hooks, so you can customize with other plugins etc. you are using.
 
 `add_filter('dynamic_hostname_filters' function($hooks){
     $hooks[] = 'some_filter_hook';
