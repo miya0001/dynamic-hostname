@@ -43,10 +43,11 @@ $hooks = array(
 );
 `
 
-この変換対象となるフックにはさらにフィルターフックもありますので、みなさんがご利用になる外のプラグイン等との組み合わせにあわせてカスタマイズすることができます。
+この変換対象となるフックにはさらにフィルターフックもありますので、みなさんがご利用になる他のプラグイン等との組み合わせにあわせてカスタマイズすることができます。
 
 `add_filter('dynamic_hostname_filters' function($hooks){
-
+    $hooks[] = 'some_filter_hook';
+    return $hooks;
 });`
 
 == Installation ==
