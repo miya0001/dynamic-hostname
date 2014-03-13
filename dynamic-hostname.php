@@ -1,13 +1,21 @@
 <?php
-/*
-Plugin Name: Amimoto SSL
-Author: Takayuki Miyauchi
-*/
+/**
+ * Plugin Name: Dynamic Hostname
+ * Plugin URI:  https://wpist.me/
+ * Description: Set hostname dynamically for the development.
+ * Version:     0.1.0
+ * Author:      Takayuki Miyauchi
+ * Author URI:  https://wpist.me/
+ * License:     GPLv2
+ * Text Domain: aa
+ * Domain Path: /languages
+ */
 
-$vagrant_cloud_fix = new Vagrant_Cloud_Fix();
-$vagrant_cloud_fix->register();
 
-class Vagrant_Cloud_Fix {
+$dynamic_hostname = new Dynamic_Hostname();
+$dynamic_hostname->register();
+
+class Dynamic_Hostname {
 
 private $home_url;
 
@@ -30,20 +38,32 @@ public function plugins_loaded()
         "theme_mod_background_image",
         "the_content",
         "upload_dir",
+        "widget_text",
     );
+
+    $hooks = apply_filters("dynamic_hostname_filters", $hooks);
 
     foreach ($hooks as $hook) {
         add_filter($hook, array($this, 'replace_host_name'));
     }
 
     add_action('save_post', array($this, 'save_post'), 10, 10);
+
+    if (!defined("WP_HOME")) {
+        add_action('admin_notices', array($this, 'admin_notices'));
+    }
+}
+
+public function admin_notices()
+{
+    echo '<div class="error"><p>[Dynamic Hostname] Please define the constant WP_HOME in your wp-config.php.</p></div>';
 }
 
 public function save_post($id, $post)
 {
-    if (preg_match("/\.vagrantshare\.com$/", $_SERVER['HTTP_HOST'])) {
+    if ($this->get_default_hostname() !== $_SERVER['HTTP_HOST']) {
         remove_action('save_post', array($this, 'save_post'));
-        $post->post_content = str_replace('http://'.$_SERVER['HTTP_HOST'], $this->home_url, $post->post_content);
+        $post->post_content = str_replace($_SERVER['HTTP_HOST'], $this->get_default_hostname(), $post->post_content);
         wp_update_post($post);
         add_action('save_post', array($this, 'save_post'), 10, 10);
     }
@@ -51,11 +71,21 @@ public function save_post($id, $post)
 
 public function replace_host_name($uri)
 {
-    if (preg_match("/\.vagrantshare\.com$/", $_SERVER['HTTP_HOST'])) {
-        return str_replace($this->home_url, 'http://'.$_SERVER['HTTP_HOST'], $uri);
+    if ($this->get_default_hostname() !== $_SERVER['HTTP_HOST']) {
+        return str_replace($this->get_default_hostname(), $_SERVER['HTTP_HOST'], $uri);
     } else {
         return $uri;
     }
+}
+
+private function get_default_hostname()
+{
+    if (defined('WP_HOME')) {
+        $uri = parse_url(WP_HOME);
+    } else {
+        $uri = parse_url($this->home_url);
+    }
+    return $uri['host'];
 }
 
 }
