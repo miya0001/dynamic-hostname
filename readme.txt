@@ -4,7 +4,7 @@ Donate link:       https://wpist.me/
 Tags: wp_home, site_url, hostname, vagrant cloud
 Requires at least: 3.8
 Tested up to:      3.9
-Stable tag:        0.2.0
+Stable tag:        0.3.0
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
