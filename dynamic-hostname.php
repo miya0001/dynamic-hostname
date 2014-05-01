@@ -25,10 +25,10 @@ function register()
     }
 
     $this->home_url = home_url();
-    add_action('plugins_loaded', array($this, 'plugins_loaded'));
+    add_action('after_setup_theme', array($this, 'after_setup_theme'));
 }
 
-public function plugins_loaded()
+public function after_setup_theme()
 {
     $hooks = array(
         "home_url",
