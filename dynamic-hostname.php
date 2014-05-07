@@ -3,7 +3,7 @@
  * Plugin Name: Dynamic Hostname
  * Plugin URI:  https://wpist.me/
  * Description: Set hostname dynamically for the development.
- * Version:     0.3.0
+ * Version:     0.4.0
  * Author:      Takayuki Miyauchi
  * Author URI:  https://wpist.me/
  * License:     GPLv2
