@@ -42,6 +42,8 @@ public function after_setup_theme()
         "the_content",
         "upload_dir",
         "widget_text",
+        "style_loader_src",
+        "script_loader_src",
     );
 
     $hooks = apply_filters("dynamic_hostname_filters", $hooks);
