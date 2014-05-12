@@ -1,5 +1,5 @@
 === Dynamic Hostname ===
-Contributors:      miyauchi, megumithemes, tekapo, inc2734,
+Contributors:      miyauchi, megumithemes, tekapo, inc2734, toro_unit
 Donate link:       https://wpist.me/
 Tags: wp_home, site_url, hostname, vagrant cloud
 Requires at least: 3.8
