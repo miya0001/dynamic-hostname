@@ -41,7 +41,7 @@ $hooks = array(
 );
 `
 
-Those hooks have also their own fileter hooks, so you can customize with other plugins etc. you are using.
+Those hooks have also their own filter hooks, so you can customize with other plugins etc. you are using.
 
 `add_filter('dynamic_hostname_filters' function($hooks){
     $hooks[] = 'some_filter_hook';
@@ -53,7 +53,7 @@ Those hooks have also their own fileter hooks, so you can customize with other p
 = Manual Installation =
 
 1. Upload the entire `/dynamic-hostname` directory to the `/wp-content/plugins/` directory.
-2. Activate Aa through the 'Plugins' menu in WordPress.
+2. Activate As through the 'Plugins' menu in WordPress.
 
 == Changelog ==
 
