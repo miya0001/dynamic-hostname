@@ -90,8 +90,12 @@ class Dynamic_Hostname {
 		} else {
 			$uri = parse_url($this->home_url);
 		}
-
-		return $uri['host'];
+		
+		if ( isset( $uri['port'] ) && $uri !== 80 && $uri !== 443 ){
+			return $uri['host'] . ':' . $uri['port'];
+		} else {
+			return $uri['host'];
+		}
 	}
 
 }
